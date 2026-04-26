@@ -1,0 +1,25 @@
+# ── Dependencias ──────────────────────────────────────────────
+node_modules/
+.npm
+
+# ── Base de datos (se monta como volumen en producción) ───────
+backend/database.sqlite
+
+# ── WhatsApp auth/cache (se monta como volumen) ───────────────
+backend/.wwebjs_auth/
+backend/.wwebjs_cache/
+
+# ── Build de Vite ─────────────────────────────────────────────
+frontend/dist/
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ── OS ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Variables de entorno ──────────────────────────────────────
+.env
+.env.local
