@@ -28,8 +28,7 @@
 html {
   background: #0a0804;
   overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: #7c2d0e #0a0804;
+  scrollbar-width: none; /* Firefox */
 }
 
 body {
@@ -41,15 +40,13 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  /* Solo gradiente central arriba - sin bordes laterales */
   background-image:
     radial-gradient(ellipse 70% 35% at 50% -5%, rgba(249,115,22,0.16) 0%, transparent 65%);
 }
 
-/* Scrollbar solo en la pista, sin sobresalir */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #7c2d0e; border-radius: 4px; }
+/* Ocultar scrollbar completamente (página sigue siendo scrolleable) */
+::-webkit-scrollbar { display: none; width: 0; }
+
 
 /* ── LAYOUT ── */
 .app-container {
