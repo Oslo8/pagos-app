@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import { FaFilePdf, FaQrcode, FaTrash, FaCheck, FaFire, FaPlus, FaBell } from 'react-icons/fa';
+import { FaFilePdf, FaQrcode, FaTrash, FaCheck, FaFire, FaPlus, FaBell, FaHome, FaWhatsapp } from 'react-icons/fa';
 import './App.css';
 
 const API_URL = import.meta.env.PROD
@@ -44,6 +44,7 @@ const getStatus = (dueDateStr, paid) => {
 
 /* ── App ─────────────────────────────────────────────────────── */
 export default function App() {
+  const [activeTab,  setActiveTab]  = useState('dashboard');
   const [services,   setServices]   = useState([]);
   const [templates,  setTemplates]  = useState([]);
   const [archives,   setArchives]   = useState([]);
@@ -164,8 +165,13 @@ export default function App() {
 
   /* ── WhatsApp ── */
   const savePhone = async () => {
-    try { await axios.post(`${API_URL}/settings`, { phone: settings.phone }); alert('Número guardado ✅'); }
+    try { await axios.post(`${API_URL}/settings`, { phone: settings.phone }); }
     catch(e) { console.error(e); }
+  };
+  
+  const savePhoneManual = async () => {
+    await savePhone();
+    alert('Número guardado ✅');
   };
 
   const testWhatsapp = async () => {
@@ -224,7 +230,7 @@ export default function App() {
     <div className="app-container">
 
       {/* HEADER */}
-      <header>
+      <header style={{ marginBottom: 0, paddingBottom: '1rem', borderBottom: 'none' }}>
         <div className="header-left">
           <h1><FaFire style={{verticalAlign:'middle', marginRight:'0.4rem', color:'#f97316'}} />Gestión de Pagos</h1>
           <p>Panel de control de servicios mensuales</p>
@@ -235,7 +241,19 @@ export default function App() {
         </div>
       </header>
 
-      {/* DASHBOARD CARDS */}
+      {/* TABS */}
+      <div className="app-nav">
+        <button className={`nav-tab ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
+          <FaHome /> Dashboard
+        </button>
+        <button className={`nav-tab ${activeTab === 'whatsapp' ? 'active' : ''}`} onClick={() => setActiveTab('whatsapp')}>
+          <FaWhatsapp /> Config. WhatsApp
+        </button>
+      </div>
+
+      {activeTab === 'dashboard' && (
+        <>
+          {/* DASHBOARD CARDS */}
       <div className="dashboard-cards">
         <div className="card">
           <h3>Total Pagado</h3>
@@ -390,6 +408,7 @@ export default function App() {
       </div>
 
       {/* WHATSAPP */}
+      {activeTab === 'whatsapp' && (
       <div className="section">
         <div className="section-title">Configuración de WhatsApp</div>
         <div className="whatsapp-row">
@@ -398,8 +417,9 @@ export default function App() {
             placeholder="Número (ej: +51999888777)"
             value={settings.phone || ''}
             onChange={e => setSettings(s => ({...s, phone: e.target.value}))}
+            onBlur={savePhone}
           />
-          <button className="btn btn-ghost btn-sm" onClick={savePhone}>Guardar Número</button>
+          <button className="btn btn-ghost btn-sm" onClick={savePhoneManual}>Guardar Número</button>
           <button className="btn btn-ghost btn-sm" onClick={testWhatsapp} disabled={!whatsapp.ready}>
             Probar Mensaje
           </button>
@@ -420,6 +440,7 @@ export default function App() {
           </p>
         )}
       </div>
+      )}
 
       {/* HISTORIAL MENSUAL */}
       <div className="section">
