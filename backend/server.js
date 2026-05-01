@@ -22,20 +22,18 @@ if (IS_PROD) {
 const authPath = process.env.WA_AUTH_PATH || '.wwebjs_auth';
 const sessionPath = path.join(authPath, 'session');
 
-// Limpiar archivos de bloqueo de Chromium para evitar "profile in use" en reinicios
-if (fs.existsSync(sessionPath)) {
+// Limpiar archivos de bloqueo de Chromium (pueden ser enlaces simbólicos rotos)
+try {
     const lockFiles = ['SingletonLock', 'SingletonCookie', 'SingletonSocket'];
     lockFiles.forEach(file => {
         const filePath = path.join(sessionPath, file);
-        if (fs.existsSync(filePath)) {
-            try {
-                fs.unlinkSync(filePath);
-                console.log(`🧹 Removed stale Chromium lock file: ${file}`);
-            } catch (err) {
-                console.error(`Failed to remove ${file}:`, err);
-            }
-        }
+        try {
+            fs.rmSync(filePath, { force: true });
+        } catch (e) {}
     });
+    console.log('🧹 Chromium lock files cleaned up.');
+} catch (err) {
+    console.error('Error cleaning Chromium lock files:', err);
 }
 
 let qrCodeData = null;
