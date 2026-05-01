@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const cron = require('node-cron');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const db = require('./db');
@@ -18,12 +19,31 @@ if (IS_PROD) {
 }
 
 // --- WhatsApp Client Setup ---
+const authPath = process.env.WA_AUTH_PATH || '.wwebjs_auth';
+const sessionPath = path.join(authPath, 'session');
+
+// Limpiar archivos de bloqueo de Chromium para evitar "profile in use" en reinicios
+if (fs.existsSync(sessionPath)) {
+    const lockFiles = ['SingletonLock', 'SingletonCookie', 'SingletonSocket'];
+    lockFiles.forEach(file => {
+        const filePath = path.join(sessionPath, file);
+        if (fs.existsSync(filePath)) {
+            try {
+                fs.unlinkSync(filePath);
+                console.log(`🧹 Removed stale Chromium lock file: ${file}`);
+            } catch (err) {
+                console.error(`Failed to remove ${file}:`, err);
+            }
+        }
+    });
+}
+
 let qrCodeData = null;
 let isWhatsAppReady = false;
 
 const whatsapp = new Client({
     authStrategy: new LocalAuth({
-        dataPath: process.env.WA_AUTH_PATH || '.wwebjs_auth'
+        dataPath: authPath
     }),
     puppeteer: {
         headless: true,
