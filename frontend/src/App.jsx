@@ -504,6 +504,8 @@ export default function App() {
           )
         )}
       </div>
+      </>
+      )}
 
       {/* ══ MODAL: Registrar pago ══════════════════════════════════ */}
       {payModal && (
