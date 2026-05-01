@@ -631,7 +631,7 @@ tbody tr:hover { background: var(--panel-hover); }
 
 /* Mobile landscape / tablet pequeño */
 @media (max-width: 768px) {
-  .app-container { padding: 1rem 0.75rem; }
+  .app-container { padding: 1rem 0.75rem; width: 100%; overflow-x: hidden; }
 
   header {
     flex-direction: column;
@@ -642,16 +642,16 @@ tbody tr:hover { background: var(--panel-hover); }
   }
 
   .header-left h1 { font-size: 1.5rem; }
-  .header-left p  { font-size: 0.78rem; }
+  .header-left p  { font-size: 0.78rem; white-space: normal; }
 
   .header-actions {
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  .header-actions .btn { justify-content: center; font-size: 0.82rem; padding: 0.55rem 0.75rem; }
+  .header-actions .btn { flex: 1; min-width: 140px; justify-content: center; font-size: 0.82rem; padding: 0.55rem 0.75rem; }
 
   .dashboard-cards { grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
   .card { padding: 1rem; border-radius: 0.9rem; }
@@ -659,7 +659,7 @@ tbody tr:hover { background: var(--panel-hover); }
   .card .amount { font-size: 1.5rem; }
   .card p { font-size: 0.75rem; }
 
-  .section { padding: 1.25rem; border-radius: 1rem; margin-bottom: 1.25rem; }
+  .section { padding: 1.25rem 1rem; border-radius: 1rem; margin-bottom: 1.25rem; width: 100%; box-sizing: border-box; }
   .section-title { font-size: 0.8rem; margin-bottom: 1rem; }
 
   .section-header-row { flex-wrap: wrap; gap: 0.75rem; }
@@ -670,6 +670,8 @@ tbody tr:hover { background: var(--panel-hover); }
   .service-template-card .svc-date { font-size: 0.72rem; }
   .tpl-card-body { padding: 0.8rem 0.9rem; }
 
+  /* Tablas responsivas */
+  .table-container { width: 100%; overflow-x: auto; }
   table { min-width: 500px; }
   th { font-size: 0.7rem; padding: 0.6rem 0.6rem; }
   td { font-size: 0.82rem; padding: 0.75rem 0.6rem; }
@@ -680,23 +682,23 @@ tbody tr:hover { background: var(--panel-hover); }
   .whatsapp-row { flex-direction: column; align-items: stretch; }
   .whatsapp-row .btn { justify-content: center; }
 
-  .reimb-row { max-width: 100%; }
+  .reimb-row { max-width: 100%; flex-wrap: wrap; }
+  .reimb-input { width: 100%; }
 
   .paid-section-header { flex-wrap: wrap; gap: 0.5rem; }
-
   .archive-summary { flex-wrap: wrap; gap: 0.5rem; }
 }
 
 /* Mobile portrait */
 @media (max-width: 480px) {
-  .app-container { padding: 0.75rem 0.6rem; }
+  .app-container { padding: 0.75rem 0.5rem; }
 
-  .dashboard-cards { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .dashboard-cards { grid-template-columns: 1fr; gap: 0.6rem; }
   .card { padding: 0.85rem; border-radius: 0.8rem; }
-  .card h3 { font-size: 0.65rem; letter-spacing: 0.05em; }
-  .card .amount { font-size: 1.35rem; }
+  .card h3 { font-size: 0.75rem; letter-spacing: 0.05em; }
+  .card .amount { font-size: 1.6rem; }
 
-  .services-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .services-grid { grid-template-columns: 1fr; gap: 0.6rem; }
 
   .modal {
     width: 95%;
@@ -707,7 +709,8 @@ tbody tr:hover { background: var(--panel-hover); }
   .modal-actions { flex-direction: column-reverse; }
   .modal-actions .btn { width: 100%; justify-content: center; }
 
-  .header-actions { grid-template-columns: 1fr 1fr; }
+  .header-actions { flex-direction: column; }
+  .header-actions .btn { width: 100%; min-width: unset; }
 
   .archive-title { font-size: 0.88rem; }
   .archive-summary { font-size: 0.78rem; }
