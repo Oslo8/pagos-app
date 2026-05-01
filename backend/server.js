@@ -294,7 +294,7 @@ cron.schedule('1 0 1 * *', () => {
 
 // ─── SPA catch-all (must be AFTER all API routes) ────────────────────────────
 if (IS_PROD) {
-    app.get('*', (req, res) => {
+    app.use((req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'index.html'));
     });
 }
