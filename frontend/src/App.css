@@ -50,9 +50,12 @@ body {
 
 /* ── LAYOUT ── */
 .app-container {
-  max-width: 1300px;
+  width: 100%;
+  max-width: 1600px; /* PC 2K */
   margin: 0 auto;
   padding: 2rem 2.5rem;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* ── HEADER ── */
@@ -631,7 +634,7 @@ tbody tr:hover { background: var(--panel-hover); }
 
 /* Mobile landscape / tablet pequeño */
 @media (max-width: 768px) {
-  .app-container { padding: 1rem 0.75rem; width: 100%; overflow-x: hidden; }
+  .app-container { padding: 1rem 0.75rem; width: 100%; overflow-x: hidden; box-sizing: border-box; }
 
   header {
     flex-direction: column;
@@ -689,16 +692,16 @@ tbody tr:hover { background: var(--panel-hover); }
   .archive-summary { flex-wrap: wrap; gap: 0.5rem; }
 }
 
-/* Mobile portrait */
-@media (max-width: 480px) {
-  .app-container { padding: 0.75rem 0.5rem; }
+/* Mobile portrait (iPhone, etc.) */
+@media (max-width: 600px) {
+  .app-container { padding: 1rem 0.5rem; }
 
-  .dashboard-cards { grid-template-columns: 1fr; gap: 0.6rem; }
-  .card { padding: 0.85rem; border-radius: 0.8rem; }
+  .dashboard-cards { grid-template-columns: 1fr; gap: 0.8rem; }
+  .card { padding: 1rem; border-radius: 0.8rem; }
   .card h3 { font-size: 0.75rem; letter-spacing: 0.05em; }
   .card .amount { font-size: 1.6rem; }
 
-  .services-grid { grid-template-columns: 1fr; gap: 0.6rem; }
+  .services-grid { grid-template-columns: 1fr; gap: 0.8rem; }
 
   .modal {
     width: 95%;
@@ -709,11 +712,15 @@ tbody tr:hover { background: var(--panel-hover); }
   .modal-actions { flex-direction: column-reverse; }
   .modal-actions .btn { width: 100%; justify-content: center; }
 
-  .header-actions { flex-direction: column; }
+  .header-actions { flex-direction: column; width: 100%; }
   .header-actions .btn { width: 100%; min-width: unset; }
 
   .archive-title { font-size: 0.88rem; }
   .archive-summary { font-size: 0.78rem; }
+  
+  .reimb-row { display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
+  .reimb-input { width: 100%; }
+  .btn-primary { width: 100%; justify-content: center; }
 }
 
 /* Muy pequeño (iPhone SE, etc.) */
