@@ -7,31 +7,37 @@ COPY frontend/ ./
 RUN npm run build
 
 # ── Etapa 2: Servidor de Producción ───────────────────────────
-FROM node:20-slim
+# Usamos Alpine para evitar conflictos de GLIBC y reducir tamaño
+FROM node:20-alpine
 WORKDIR /app
 
-# Dependencias del sistema para Puppeteer/WhatsApp
-RUN apt-get update && apt-get install -y \
+# Instalar dependencias necesarias para Puppeteer y SQLite en Alpine
+RUN apk add --no-cache \
     chromium \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libxss1 \
-    libasound2 \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    sqlite-dev \
+    python3 \
+    make \
+    g++
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 WORKDIR /app/backend
 COPY backend/package*.json ./
+
+# Forzamos la compilación de módulos nativos (como sqlite3) dentro de Alpine
 RUN npm install --omit=dev
+
 COPY backend/ ./
 
-# Copiar el build del frontend al directorio 'public' del backend
+# Copiar el build del frontend
 COPY --from=builder /app/frontend/dist ./public
 
-# El volumen para datos persistentes (DB + WhatsApp auth)
 VOLUME ["/app/data"]
 
 ENV PORT=3000 \
