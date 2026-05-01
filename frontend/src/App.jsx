@@ -407,41 +407,6 @@ export default function App() {
         )}
       </div>
 
-      {/* WHATSAPP */}
-      {activeTab === 'whatsapp' && (
-      <div className="section">
-        <div className="section-title">Configuración de WhatsApp</div>
-        <div className="whatsapp-row">
-          <input
-            type="text"
-            placeholder="Número (ej: +51999888777)"
-            value={settings.phone || ''}
-            onChange={e => setSettings(s => ({...s, phone: e.target.value}))}
-            onBlur={savePhone}
-          />
-          <button className="btn btn-ghost btn-sm" onClick={savePhoneManual}>Guardar Número</button>
-          <button className="btn btn-ghost btn-sm" onClick={testWhatsapp} disabled={!whatsapp.ready}>
-            Probar Mensaje
-          </button>
-          <button className="btn btn-primary btn-sm" onClick={sendNotification} disabled={!whatsapp.ready}>
-            <FaBell /> Enviar Recordatorio
-          </button>
-        </div>
-
-        {!whatsapp.ready && whatsapp.qr ? (
-          <div className="qr-container">
-            <h3 style={{color:'black'}}><FaQrcode /> Escanea para vincular</h3>
-            <p style={{color:'#555', fontSize:'0.85rem'}}>WhatsApp → Dispositivos Vinculados → Vincular dispositivo</p>
-            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(whatsapp.qr)}`} alt="WhatsApp QR" />
-          </div>
-        ) : (
-          <p style={{marginTop:'1rem', color: whatsapp.ready ? 'var(--success)' : 'var(--text-muted)', fontSize:'0.9rem'}}>
-            {whatsapp.ready ? '✅ WhatsApp Vinculado Correctamente' : '⏳ Iniciando servicio de WhatsApp...'}
-          </p>
-        )}
-      </div>
-      )}
-
       {/* HISTORIAL MENSUAL */}
       <div className="section">
         <div className="section-header-row">
@@ -505,6 +470,41 @@ export default function App() {
         )}
       </div>
       </>
+      )}
+
+      {/* WHATSAPP */}
+      {activeTab === 'whatsapp' && (
+      <div className="section">
+        <div className="section-title">Configuración de WhatsApp</div>
+        <div className="whatsapp-row">
+          <input
+            type="text"
+            placeholder="Número (ej: +51999888777)"
+            value={settings.phone || ''}
+            onChange={e => setSettings(s => ({...s, phone: e.target.value}))}
+            onBlur={savePhone}
+          />
+          <button className="btn btn-ghost btn-sm" onClick={savePhoneManual}>Guardar Número</button>
+          <button className="btn btn-ghost btn-sm" onClick={testWhatsapp} disabled={!whatsapp.ready}>
+            Probar Mensaje
+          </button>
+          <button className="btn btn-primary btn-sm" onClick={sendNotification} disabled={!whatsapp.ready}>
+            <FaBell /> Enviar Recordatorio
+          </button>
+        </div>
+
+        {!whatsapp.ready && whatsapp.qr ? (
+          <div className="qr-container">
+            <h3 style={{color:'black'}}><FaQrcode /> Escanea para vincular</h3>
+            <p style={{color:'#555', fontSize:'0.85rem'}}>WhatsApp → Dispositivos Vinculados → Vincular dispositivo</p>
+            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(whatsapp.qr)}`} alt="WhatsApp QR" />
+          </div>
+        ) : (
+          <p style={{marginTop:'1rem', color: whatsapp.ready ? 'var(--success)' : 'var(--text-muted)', fontSize:'0.9rem'}}>
+            {whatsapp.ready ? '✅ WhatsApp Vinculado Correctamente' : '⏳ Iniciando servicio de WhatsApp...'}
+          </p>
+        )}
+      </div>
       )}
 
       {/* ══ MODAL: Registrar pago ══════════════════════════════════ */}
